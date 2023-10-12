@@ -30,7 +30,7 @@
     <table id="example" class="display" style="width: 100%">
         <thead>
             <tr>
-                <th class="filter-column">Name</th>
+                <th class="filter-column">Name&nbsp;&nbsp;&nbsp;</th>
                 <th>Position</th>
                 <th>Office</th>
                 <th>Age</th>
@@ -504,8 +504,9 @@
             var table = $('#example').DataTable();
 
             // Create a temporary table row 
-            var newTableHeader = "<tr>";
-
+            //var newTableHeader = "<tr>";
+            // Select the headers with a specific class (e.g., 'filter-column-header')
+            //var headerColumns = $('#example thead th.filter-column');
             // Get values for each column and create select elements
 
             // just use columns to get all headers to get specific ones use the class 
@@ -520,39 +521,29 @@
                 select.className = "multi-select";
                 select.setAttribute("data-actions-box", "true");
                 select.setAttribute("data-live-search", "true");
-                
+
                 // Add an empty option to the select
-                select.add(new Option("", ""));
+                select.add(new Option("-- Select Name --", ""));
+
 
                 // Populate the select with unique values
                 uniqueValues.forEach(function (value) {
                     select.add(new Option(value, value));
-                    
+
                 });
 
 
-                // Add the select element to the temporary table header
-                //newTableHeader += "<th></th>"; // Create an empty <th>
-                newTableHeader += "<th>" + select.outerHTML + "</th>";
+                // Append the select element to the header cell
+                $('#example thead th.filter-column').append(select);
 
                 // Apply a change event listener for the select element
+                $(select).on("change", function () {
+                    var selectedValue = $(this).val();
 
+                    // Filter the table based on the selected value in this column
+                    column.search(selectedValue).draw();
+                });
             });
-
-            newTableHeader += "</tr>";
-
-            // Append the new table header to your table
-            $("#example thead").append(newTableHeader);
-
-            // Add an event listener to the select elements in the thead
-            $("#example thead select").on("change", function () {
-                var columnIndex = $(this).closest("th").index(); // Get the column index
-                var selectedValue = $(this).val(); // Get the selected value
-
-                // Filter the table based on the selected value in this column
-                table.column(columnIndex).search(selectedValue).draw();
-            });
-
 
             $(".multi-select").selectpicker();
         });
