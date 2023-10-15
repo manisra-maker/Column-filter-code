@@ -23,6 +23,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .bootstrap-select>.dropdown-toggle:after {
+            display: none;
+        }
+
+        .bootstrap-select>.dropdown-toggle {
+            width: 19%;
+            margin-top: -25%;
+            margin-left: 25%;
+        }
+    </style>
     <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
 </head>
 
@@ -523,8 +535,12 @@
                 select.setAttribute("data-live-search", "true");
 
                 // Add an empty option to the select
-                select.add(new Option("-- Select Name --", ""));
+                //select.add(new Option("-- Select Name --", ""));
 
+                // Add an empty option to the select with Font Awesome icon
+                var emptyOption = new Option("-- Select Name --", "");
+                emptyOption.setAttribute("data-content", '<i class="fas fa-solid fa-filter"></i>');
+                select.add(emptyOption);
 
                 // Populate the select with unique values
                 uniqueValues.forEach(function (value) {
